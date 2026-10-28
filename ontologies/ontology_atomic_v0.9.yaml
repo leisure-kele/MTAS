@@ -1,0 +1,45 @@
+schema_version: atomic_ontology_config_v1
+ontology_version: atomic_v0.9
+status: pilot_spec
+source_spec: 原子动作标注软件与动作库_最终代码修改交接说明_2026-07-28.md
+execution_scope: future500h-only-not-legacy20h-v1
+interval_convention: "[start_frame_60,end_frame_60_exclusive)"
+
+groups:
+  - {group_id: G1_FREE_MOTION, display_name_zh: 空闲与空手运动}
+  - {group_id: G2_GRASP_CONTROL, display_name_zh: 抓持与控制}
+  - {group_id: G3_MOVE_POSITION, display_name_zh: 移动与定位}
+  - {group_id: G4_PHYSICAL, display_name_zh: 基础物理操作}
+  - {group_id: G5_FUNCTIONAL, display_name_zh: 功能性操作}
+
+actions:
+  - {class_index: 0,  label_id: AA01_IDLE,             action_name: idle,             display_name_zh: 空闲, group_id: G1_FREE_MOTION}
+  - {class_index: 1,  label_id: AA02_REACH,            action_name: reach,            display_name_zh: 伸向, group_id: G1_FREE_MOTION}
+  - {class_index: 2,  label_id: AA03_RETRACT,          action_name: retract,          display_name_zh: 收回, group_id: G1_FREE_MOTION}
+  - {class_index: 3,  label_id: AA04_PINCH_GRASP,      action_name: pinch_grasp,      display_name_zh: 捏取, group_id: G2_GRASP_CONTROL}
+  - {class_index: 4,  label_id: AA05_WHOLE_HAND_GRASP, action_name: whole_hand_grasp, display_name_zh: 抓握, group_id: G2_GRASP_CONTROL}
+  - {class_index: 5,  label_id: AA06_HOLD,             action_name: hold,             display_name_zh: 保持, group_id: G2_GRASP_CONTROL}
+  - {class_index: 6,  label_id: AA07_RELEASE,          action_name: release,          display_name_zh: 松开, group_id: G2_GRASP_CONTROL}
+  - {class_index: 7,  label_id: AA08_LIFT,             action_name: lift,             display_name_zh: 拿起, group_id: G3_MOVE_POSITION}
+  - {class_index: 8,  label_id: AA09_TRANSPORT,        action_name: transport,        display_name_zh: 移动, group_id: G3_MOVE_POSITION}
+  - {class_index: 9,  label_id: AA10_ADJUST,           action_name: adjust,           display_name_zh: 调整, group_id: G3_MOVE_POSITION}
+  - {class_index: 10, label_id: AA11_PLACE,            action_name: place,            display_name_zh: 放置, group_id: G3_MOVE_POSITION}
+  - {class_index: 11, label_id: AA12_PUSH,             action_name: push,             display_name_zh: 推, group_id: G4_PHYSICAL}
+  - {class_index: 12, label_id: AA13_PULL,             action_name: pull,             display_name_zh: 拉, group_id: G4_PHYSICAL}
+  - {class_index: 13, label_id: AA14_SLIDE,            action_name: slide,            display_name_zh: 滑动, group_id: G4_PHYSICAL}
+  - {class_index: 14, label_id: AA15_PRESS,            action_name: press,            display_name_zh: 按压, group_id: G4_PHYSICAL}
+  - {class_index: 15, label_id: AA16_ROTATE,           action_name: rotate,           display_name_zh: 旋转, group_id: G4_PHYSICAL}
+  - {class_index: 16, label_id: AA17_TAP,              action_name: tap,              display_name_zh: 敲击, group_id: G4_PHYSICAL}
+  - {class_index: 17, label_id: AA18_INSERT,           action_name: insert,           display_name_zh: 插入, group_id: G4_PHYSICAL}
+  - {class_index: 18, label_id: AA19_EXTRACT,          action_name: extract,          display_name_zh: 拔出, group_id: G4_PHYSICAL}
+  - {class_index: 19, label_id: AA20_OPEN,             action_name: open,             display_name_zh: 打开, group_id: G5_FUNCTIONAL}
+  - {class_index: 20, label_id: AA21_CLOSE,            action_name: close,            display_name_zh: 关闭, group_id: G5_FUNCTIONAL}
+  - {class_index: 21, label_id: AA22_POUR,             action_name: pour,             display_name_zh: 倾倒, group_id: G5_FUNCTIONAL}
+  - {class_index: 22, label_id: AA23_FOLD,             action_name: fold,             display_name_zh: 折叠, group_id: G5_FUNCTIONAL}
+  - {class_index: 23, label_id: AA24_UNFOLD,           action_name: unfold,           display_name_zh: 展开, group_id: G5_FUNCTIONAL}
+  - {class_index: 24, label_id: AA25_WIPE,             action_name: wipe,             display_name_zh: 擦拭, group_id: G5_FUNCTIONAL}
+  - {class_index: 25, label_id: AA26_CUT,              action_name: cut,              display_name_zh: 切割, group_id: G5_FUNCTIONAL}
+
+hand_values: [left, right, both]
+review_required_is_training_class: false
+contact_is_training_action_class: false

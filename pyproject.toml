@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "when-does-touch-help"
+version = "0.1.0"
+description = "Multimodal temporal action segmentation for human bimanual manipulation"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "h5py>=3.10",
+  "mcap>=1.2",
+  "mcap-protobuf-support>=0.5",
+  "numpy>=1.24",
+  "Pillow>=10.0",
+  "PyYAML>=6.0",
+  "torch>=2.2",
+  "torchvision>=0.17",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+export = ["pandas>=2.0", "pyarrow>=14.0", "transformers>=4.57.6"]
+
+[project.scripts]
+atomseg-export-formal500h = "atomseg.formal500h_export:main"
+atomseg-build-training-release = "atomseg.formal500h_training_release:main"
+atomseg-prepare-wave1-data = "atomseg.formal500h_wave1_data:main"
+atomseg-train-wave1 = "atomseg.formal500h_wave1_train:main"
+atomseg-train-crossarch = "atomseg.formal500h_wave4_crossarch_h0:main"
+atomseg-train-asformer = "atomseg.formal500h_asformer:main"
+atomseg-train-pose = "atomseg.formal500h_pose_train:main"
+atomseg-train-phase = "atomseg.formal500h_phase_train:main"
+atomseg-evaluate-robustness = "atomseg.formal500h_wave5_robustness:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

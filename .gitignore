@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Packaging and notebooks
+build/
+dist/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Data and experiment artifacts
+data/
+datasets/
+raw_data/
+features/
+cache/
+checkpoints/
+runs/
+outputs/
+wandb/
+mlruns/
+*.h5
+*.hdf5
+*.mcap
+*.pt
+*.pth
+*.ckpt
+*.npz
+
+# Editor and operating-system files
+.DS_Store
+.vscode/
+.idea/
+
+# Secrets and local overrides
+.env
+*.key
+*.pem
+configs/local*.yaml
+configs/local*.json

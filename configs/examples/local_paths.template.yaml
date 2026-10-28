@@ -1,0 +1,9 @@
+# Copy to configs/local_paths.yaml and fill in the paths provided with the data release.
+# This template is ignored by Git.
+
+data_release_root: /absolute/path/to/released-data
+episode_cache_root: /absolute/path/to/episode-hdf5
+feature_cache_root: /absolute/path/to/frozen-dinov3-features
+run_root: /absolute/path/to/experiment-runs
+dinov3_repository: /absolute/path/to/official-dinov3
+dinov3_weights: /absolute/path/to/dinov3-weights

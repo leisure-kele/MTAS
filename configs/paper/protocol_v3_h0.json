@@ -1,0 +1,26 @@
+{
+  "schema_version": "formal500h_h0_contract_v1",
+  "scope": "formal500h_validation_only_until_final_freeze",
+  "num_classes": 26,
+  "output_rate_hz": 30,
+  "window_seconds": 8.0,
+  "window_stride_seconds": 4.0,
+  "boundary_tolerance_ms": 250,
+  "hand_weight": 0.0,
+  "hand_loss_enabled": false,
+  "batch_size_per_gpu": 16,
+  "workers_per_job": 20,
+  "jobs_per_gpu": 1,
+  "epochs": 3,
+  "learning_rate": 0.0003,
+  "precision": "bf16",
+  "seeds": [20260824, 20260825, 20260826],
+  "test_manifest_read": false,
+  "test_sealed": true,
+  "left_right_policy": "hdf5_canonical_left_right_no_runtime_swap",
+  "notes": [
+    "This file is the H0 training/evaluation contract, not a model checkpoint.",
+    "Data, protocol, evaluator, and model hashes are bound by the release manifest.",
+    "The hand output head may remain for interface compatibility but has no loss or optimizer gradient."
+  ]
+}

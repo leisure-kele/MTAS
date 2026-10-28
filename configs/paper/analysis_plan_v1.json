@@ -1,0 +1,123 @@
+{
+  "schema_version": "formal500h_analysis_plan_v1",
+  "scope": "validation_only_until_final_freeze",
+  "research_question": "Under a frozen large-scale bimanual manipulation protocol, when and why does tactile sensing improve temporal action segmentation?",
+  "primary_task": {
+    "label_space": "26_atomic_actions",
+    "output_rate_hz": 30,
+    "episode_evaluation": true,
+    "boundary_tolerance_ms": 250,
+    "primary_metric": {
+      "name": "primary_composite",
+      "formula": "0.5 * collapsed_semantic_f1@50 + 0.5 * class_change_boundary_f1@250ms"
+    },
+    "standard_metrics": [
+      "collapsed_semantic_f1@10",
+      "collapsed_semantic_f1@25",
+      "collapsed_semantic_f1@50",
+      "raw_instance_f1@50",
+      "edit",
+      "frame_accuracy",
+      "tick_macro_f1",
+      "class_change_boundary_f1@50ms",
+      "class_change_boundary_f1@100ms",
+      "class_change_boundary_f1@250ms",
+      "class_change_boundary_f1@500ms",
+      "class_change_boundary_f1@1000ms"
+    ]
+  },
+  "frozen_training": {
+    "hand_weight": 0.0,
+    "hand_loss_enabled": false,
+    "batch_size_per_gpu": 16,
+    "workers_per_job": 20,
+    "jobs_per_gpu": 1,
+    "epochs": 3,
+    "learning_rate": 0.0003,
+    "precision": "bf16",
+    "seeds": [20260824, 20260825, 20260826],
+    "test_manifest_read": false
+  },
+  "primary_cells": [
+    "F26_H0_V",
+    "F26_H0_VT",
+    "MSTCNPP_V",
+    "MSTCNPP_VT",
+    "ASRF_V",
+    "ASRF_VT",
+    "DIFFACT_V",
+    "DIFFACT_VT",
+    "ASFORMER_V",
+    "ASFORMER_VT"
+  ],
+  "secondary_cells": [
+    "F26_H0_B2",
+    "MSTCNPP_M2R2_STYLE_ADAPTED",
+    "ASRF_M2R2_STYLE_ADAPTED",
+    "DIFFACT_M2R2_STYLE_ADAPTED",
+    "POSE_ONLY",
+    "POSE_TACTILE",
+    "DIRECT8_V",
+    "DIRECT8_VT",
+    "HIER26P8_V",
+    "HIER26P8_VT"
+  ],
+  "canonical_queue_matrix": {
+    "phase8_h0": {
+      "variants": ["F26_H0_V", "F26_H0_VT", "F26_H0_B2", "DIRECT8_V", "DIRECT8_VT", "HIER26P8_V", "HIER26P8_VT"],
+      "seeds_per_variant": 3,
+      "training_cells": 21
+    },
+    "crossarchitecture_h0": {
+      "heads": ["MSTCNPP", "ASRF", "DIFFACT"],
+      "representations": ["V", "VT", "M2R2"],
+      "m2r2_label": "M2R2-style adapted",
+      "seeds_per_cell": 3,
+      "training_cells": 27
+    },
+    "asformer_h0": {
+      "variants": ["ASFORMER_V", "ASFORMER_VT"],
+      "seeds_per_variant": 3,
+      "training_cells": 6
+    },
+    "pose_h0": {
+      "variants": ["POSE_ONLY", "POSE_TACTILE"],
+      "seeds_per_variant": 3,
+      "training_cells": 6
+    },
+    "total_training_cells": 60
+  },
+  "cell_aliases": {
+    "F26_H0_V": "ContactTAS/ASRF-inspired vision-only 26-class control",
+    "F26_H0_VT": "ContactTAS/ASRF-inspired vision+tactile 26-class control",
+    "F26_H0_B2": "ContactTAS/ASRF-inspired full-modality 26-class control"
+  },
+  "required_read_only_replays": [
+    "rate_30_15_10_5_2_hz",
+    "boundary_tolerance_250_500_1000_ms",
+    "fixed_26_to_8_mapping",
+    "tactile_zero_missing_cross_episode_delay",
+    "feature_level_view_missingness",
+    "per_class_and_boundary_neighborhood_effects",
+    "group_clustered_bootstrap_ci"
+  ],
+  "required_ablation_cells": [
+    "hand_loss_0_vs_0.1_on_selected_head",
+    "strict_no_hand_head",
+    "vision_tactile_pose_modality_matrix",
+    "tactile_raw_vs_delta_vs_event_representation",
+    "corruption_aware_training_only_if_feature_missingness_interaction_is_positive"
+  ],
+  "decision_rules": {
+    "head_portable_tactile_gain": "paired VT-minus-V is positive on at least 2 of 3 heads and F1@50 does not systematically decrease",
+    "mechanism_supported": "zero/cross-episode/delay interventions reduce performance in the preregistered direction",
+    "convergence_required": "if validation metric is still rising at epoch 3, extend every compared cell to the same preregistered budget",
+    "reporting": "mean/std plus paired seed deltas and group-clustered 95% CI; no significance claim from three seeds alone"
+  },
+  "excluded_from_current_plan": [
+    "formal_test_until_all_model_and_decoder_choices_are_frozen",
+    "five_class_label_space",
+    "external_absolute_ranking_against_M2R2",
+    "claim_of_official_reproduction_for_clean_room_heads"
+  ]
+}

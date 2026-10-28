@@ -1,0 +1,44 @@
+schema_version: atomic_robot_phase_mapping_v1
+ontology_version: robot_phase_v1
+status: preregistered_secondary_analysis
+source_ontology: atomic_v0.9
+purpose: deterministic_26_to_8_robot_control_phase_view
+selection_policy: defined_before_any_phase8_validation_result
+
+groups:
+  - {group_id: P0_IDLE,          display_name_zh: 空闲}
+  - {group_id: P1_APPROACH,      display_name_zh: 接近目标}
+  - {group_id: P2_ACQUIRE,       display_name_zh: 建立抓取}
+  - {group_id: P3_STABILIZE,     display_name_zh: 稳定控制}
+  - {group_id: P4_RELOCATE,      display_name_zh: 转移与定位}
+  - {group_id: P5_MANIPULATE,    display_name_zh: 接触操作}
+  - {group_id: P6_PLACE_RELEASE, display_name_zh: 放置与解除控制}
+  - {group_id: P7_RETRACT,       display_name_zh: 撤离目标}
+
+actions:
+  - {class_index: 0,  label_id: AA01_IDLE,             action_name: idle,             group_id: P0_IDLE}
+  - {class_index: 1,  label_id: AA02_REACH,            action_name: reach,            group_id: P1_APPROACH}
+  - {class_index: 2,  label_id: AA03_RETRACT,          action_name: retract,          group_id: P7_RETRACT}
+  - {class_index: 3,  label_id: AA04_PINCH_GRASP,      action_name: pinch_grasp,      group_id: P2_ACQUIRE}
+  - {class_index: 4,  label_id: AA05_WHOLE_HAND_GRASP, action_name: whole_hand_grasp, group_id: P2_ACQUIRE}
+  - {class_index: 5,  label_id: AA06_HOLD,             action_name: hold,             group_id: P3_STABILIZE}
+  - {class_index: 6,  label_id: AA07_RELEASE,          action_name: release,          group_id: P6_PLACE_RELEASE}
+  - {class_index: 7,  label_id: AA08_LIFT,             action_name: lift,             group_id: P4_RELOCATE}
+  - {class_index: 8,  label_id: AA09_TRANSPORT,        action_name: transport,        group_id: P4_RELOCATE}
+  - {class_index: 9,  label_id: AA10_ADJUST,           action_name: adjust,           group_id: P4_RELOCATE}
+  - {class_index: 10, label_id: AA11_PLACE,            action_name: place,            group_id: P6_PLACE_RELEASE}
+  - {class_index: 11, label_id: AA12_PUSH,             action_name: push,             group_id: P5_MANIPULATE}
+  - {class_index: 12, label_id: AA13_PULL,             action_name: pull,             group_id: P5_MANIPULATE}
+  - {class_index: 13, label_id: AA14_SLIDE,            action_name: slide,            group_id: P5_MANIPULATE}
+  - {class_index: 14, label_id: AA15_PRESS,            action_name: press,            group_id: P5_MANIPULATE}
+  - {class_index: 15, label_id: AA16_ROTATE,           action_name: rotate,           group_id: P5_MANIPULATE}
+  - {class_index: 16, label_id: AA17_TAP,              action_name: tap,              group_id: P5_MANIPULATE}
+  - {class_index: 17, label_id: AA18_INSERT,           action_name: insert,           group_id: P5_MANIPULATE}
+  - {class_index: 18, label_id: AA19_EXTRACT,          action_name: extract,          group_id: P5_MANIPULATE}
+  - {class_index: 19, label_id: AA20_OPEN,             action_name: open,             group_id: P5_MANIPULATE}
+  - {class_index: 20, label_id: AA21_CLOSE,            action_name: close,            group_id: P5_MANIPULATE}
+  - {class_index: 21, label_id: AA22_POUR,             action_name: pour,             group_id: P5_MANIPULATE}
+  - {class_index: 22, label_id: AA23_FOLD,             action_name: fold,             group_id: P5_MANIPULATE}
+  - {class_index: 23, label_id: AA24_UNFOLD,           action_name: unfold,           group_id: P5_MANIPULATE}
+  - {class_index: 24, label_id: AA25_WIPE,             action_name: wipe,             group_id: P5_MANIPULATE}
+  - {class_index: 25, label_id: AA26_CUT,              action_name: cut,              group_id: P5_MANIPULATE}
