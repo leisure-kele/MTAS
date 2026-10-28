@@ -1,55 +1,84 @@
 # When Does Touch Help?
 
-Code accompanying **“When Does Touch Help? Multimodal Temporal Action Segmentation in Human Bimanual Manipulation.”**
+Code for *When Does Touch Help? Multimodal Temporal Action Segmentation in Human Bimanual Manipulation*.
 
-This repository contains the paper-facing implementation for temporal action segmentation of multimodal human bimanual manipulation. It supports the 26-class atomic-action task, a fixed 26-to-8 manipulation-stage mapping, complete-sequence evaluation, paired visual-availability interventions, and the adapted temporal backbones used in the paper.
+[中文说明](README.zh-CN.md)
 
-## What is included
+## Overview
 
-- `src/atomseg/`: data preparation, modality encoders, loss functions, complete-sequence decoding, evaluation, and the four adapted temporal backbones (MS-TCN++, ASRF-style, ASFormer-style, and DiffAct-style).
-- `supplementary/aspnet_style/`: the shared-private ASPnet-style fusion architecture used as a supplementary control. It is an adaptation for this data interface, not an official reproduction of ASPnet.
-- `configs/paper/`: the fixed H0 training contract and analysis plan used to specify the paper protocol.
-- `ontologies/`: the 26 atomic actions and the fixed eight-stage mapping.
-- `tests/`: unit and architecture-level checks that do not require the released dataset.
-- `docs/`: data-release boundaries, expected artifacts, and a reproduction guide.
+This repository implements a study of measured tactile sensing in temporal action segmentation of human bimanual manipulation. The task predicts 26 atomic action classes and their temporal transitions from synchronized multimodal observations. A fixed mapping from atomic actions to eight manipulation stages supports a coarser semantic analysis.
 
-No participant data, video, tactile recordings, precomputed features, checkpoints, cached HDF5 files, private test manifests, server paths, or experiment logs are included.
+The experimental protocol compares visual-only (V) and visual--tactile (VT) models within matched temporal backbones. It evaluates complete sequences after overlap aggregation and applies controlled visual-feature and view-availability interventions with model weights and decoding parameters held fixed. Additional pose and derived-kinematics controls examine the contribution of tactile observations in the presence of motion-state information.
+
+## Repository contents
+
+| Directory | Contents |
+| --- | --- |
+| `src/atomseg/` | Episode export, data preparation, modality encoders, temporal models, objectives, decoding, and evaluation. |
+| `supplementary/aspnet_style/` | Shared-private ASPnet-style adapted fusion control. |
+| `configs/paper/` | Fixed H0 training contract and paper analysis specification. |
+| `ontologies/` | Definitions of 26 atomic actions and the fixed 26-to-8 stage mapping. |
+| `tests/` | Unit and architecture-level tests that do not require the released data. |
+| `docs/` | Data-release boundary, required artifacts, and reproduction procedure. |
+
+The main temporal-model suite contains adapted MS-TCN++, ASRF-style, ASFormer-style, and DiffAct-style heads. The M2R2-style and ASPnet-style components are data-interface adaptations for controlled comparison; they are not official reproductions of the respective original methods.
 
 ## Installation
 
 ```bash
-git clone <YOUR-REPOSITORY-URL>
-cd when-does-touch-help
+git clone https://github.com/leisure-kele/MTAS.git
+cd MTAS
 python -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
 pip install -e '.[dev]'
 ```
 
-For DINOv3 feature extraction, install the DINOv3 implementation and weights through their official release, then point the feature-export configuration to that local installation. The visual backbone is frozen in all paper experiments.
-
-## Quick checks
+Feature export additionally requires the packages in the `export` extra and an official local DINOv3 installation:
 
 ```bash
-pytest -q tests/test_model.py tests/test_formal500h_clock.py tests/test_formal500h_protocol.py
+pip install -e '.[dev,export]'
+```
+
+The visual encoder is frozen in the reported experiments.
+
+## Protocol
+
+- 26 atomic actions, evaluated at 30 Hz.
+- Eight-second training windows with a four-second stride.
+- Three paired seeds: `20260824`, `20260825`, and `20260826`.
+- Validation-only checkpoint selection and decoder calibration.
+- Complete-sequence scoring after overlap averaging.
+- Fixed model weights and decoding parameters during visual-availability evaluation.
+
+The scalar H0 settings are recorded in [`configs/paper/protocol_v3_h0.json`](configs/paper/protocol_v3_h0.json). The analysis specification is provided in [`configs/paper/analysis_plan_v1.json`](configs/paper/analysis_plan_v1.json).
+
+## Basic checks
+
+```bash
+bash scripts/run_unit_checks.sh
 python -m atomseg.formal500h_wave1_train --help
 python -m atomseg.formal500h_wave4_crossarch_h0 --help
 python -m atomseg.formal500h_asformer --help
 ```
 
-## Reproduction outline
+## Reproduction
 
-1. Obtain the released data package and its accompanying manifest.
-2. Export synchronized recordings into the documented episode-HDF5 schema.
-3. Build the group-disjoint training release and 30 Hz windows.
-4. Train matched V and VT variants with the fixed H0 contract.
-5. Select checkpoints and decoder settings on validation data only.
-6. Run complete-sequence evaluation and the specified visual-feature/view interventions with fixed weights and decoder settings.
+The end-to-end workflow is:
 
-Detailed commands and required artifacts are in [docs/reproduction.md](docs/reproduction.md). The published 100-hour subset and its label files will be documented in the repository release when distribution is enabled; the paper's reported results use the full 380.39-hour corpus.
+1. Obtain the distributed data package and manifest.
+2. Export or load synchronized episode-HDF5 files.
+3. Construct group-disjoint train/validation/test artifacts and training-only normalization statistics.
+4. Train paired modality configurations under the fixed protocol.
+5. Select weights and decoding settings on validation data.
+6. Evaluate full sequences and prescribed visual-availability conditions.
 
-## Scope and citation
+Further details are given in [docs/reproduction.md](docs/reproduction.md). The expected data artifacts and release scope are documented in [docs/data_and_release.md](docs/data_and_release.md).
 
-This repository is a research release. The four temporal backbones and the M2R2-style/ASPnet-style controls are adaptations to a common multimodal interface; they must not be interpreted as official reproductions or cross-dataset rankings of the original methods.
+## Data availability
 
-The code is released under the [MIT License](LICENSE). The dataset, videos, feature caches, and checkpoints are not included and remain subject to their separate access and distribution terms.
+The paper reports experiments on 44,589 complete sequences totaling 380.39 hours. This repository does not include recordings, participant imagery, tactile streams, feature caches, manifests, checkpoints, or private test artifacts. A 100-hour public subset with multimodal recordings, atomic-action labels, and temporal boundaries will be documented with its data-release version. Results from that subset should not be treated as numerical reproductions of full-corpus results unless the corresponding evaluation manifest explicitly establishes that equivalence.
+
+## License
+
+The code is released under the [MIT License](LICENSE). Data, derived features, and model checkpoints are governed by their respective distribution terms.
